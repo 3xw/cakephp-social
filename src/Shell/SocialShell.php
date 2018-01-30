@@ -9,7 +9,7 @@ use Cake\Console\Shell;
 class SocialShell extends Shell
 {
 
-  public $tasks = ['Trois/Social.Facebook'];
+  public $tasks = ['Trois/Social.Facebook','Trois/Social.Twitter'];
 
   public function getOptionParser()
   {
@@ -17,6 +17,10 @@ class SocialShell extends Shell
     $parser->addSubcommand('facebook', [
         'help' => 'Execute The Facebook Task.',
         'parser' => $this->Facebook->getOptionParser(),
+    ]);
+    $parser->addSubcommand('twitter', [
+        'help' => 'Execute The Twitter Task.',
+        'parser' => $this->Twitter->getOptionParser(),
     ]);
     return $parser;
   }

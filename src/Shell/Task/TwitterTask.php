@@ -1,20 +1,13 @@
 <?php
 namespace Trois\Social\Shell\Task;
 
-use Cake\Console\Shell;
+use Trois\Social\Network\Http\Twitter;
 
-/**
- * Twitter shell task.
- */
-class TwitterTask extends Shell
+class TwitterTask extends CollectTask
 {
-
-    /**
-     * main() method.
-     *
-     * @return bool|int|null Success or error code.
-     */
-    public function main()
-    {
-    }
+  public function initialize()
+  {
+    parent::initialize();
+    $this->Social = new Twitter();
+  }
 }
