@@ -39,8 +39,9 @@ class Twitter extends Social {
     foreach($datas as $dataKey => $data){
       if($dataKey < $limit){
         $post = [];
-        $post['type'] = 'twitter';
-        $post['created'] = ($data->created_at)? date("Y-m-d H:i:s", strtotime($data->created_at)) : null;
+        $post['provider'] = 'twitter';
+        $post['type'] = $type;
+        $post['date'] = ($data->created_at)? date("Y-m-d H:i:s", strtotime($data->created_at)) : null;
         if($type == 'account'){
           $post['link'] = 'https://twitter.com/'.$key.'/status/'.$data->id;
         }elseif($type == 'search'){
@@ -49,7 +50,7 @@ class Twitter extends Social {
         $post['message'] = $data->text ?? null;
         $post['author'] = $data->user->screen_name ?? null;
         $post['image'] = null;
-        $this->posts[$post['created']] = $post;
+        $this->posts[] = array_merge((array)$data, $post);
       }
     }
 

@@ -30,8 +30,9 @@ class Facebook extends Social {
     {
       if($dataKey < $limit){
         $post = [];
-        $post['type'] = 'facebook';
-        $post['created'] = ($data['created_time'])? date("Y-m-d H:i:s", strtotime($data['created_time'])) : null;
+        $post['provider'] = 'facebook';
+        $post['type'] = $type;
+        $post['date'] = ($data['created_time'])? date("Y-m-d H:i:s", strtotime($data['created_time'])) : null;
         $post['link'] = $data['permalink_url'] ?? null;
         $post['message'] = $data['message'] ?? null;
         $post['author'] = $config['page_name'];
@@ -44,7 +45,7 @@ class Facebook extends Social {
         }else{
           $post['image'] = $data['picture'] ?? null;
         }
-        $this->posts[$post['created']] = $post;
+        $this->posts[] = array_merge((array)$data, $post);
       }
     }
 

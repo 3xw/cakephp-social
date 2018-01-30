@@ -1,11 +1,14 @@
 <?php
 namespace Trois\Social\Shell\Task;
 
+use Cake\ORM\TableRegistry;
 use Cake\Console\Shell;
 
 class CollectTask extends Shell
 {
   public $Social;
+
+  public $SocialPosts;
 
   public function getOptionParser()
   {
@@ -38,15 +41,18 @@ class CollectTask extends Shell
       $limit = $this->in('How much posts?', null, 10);
     }
 
+    $this->info('collect '.$limit.' post(s)...');
     $this->Social->query($type, $key, $limit);
 
-    debug($this->Social->toArray());
-
+    $this->info(count($this->Social->toArray()).' post(s) has/have been collected!');
     if($this->params['save']) $this->save();
   }
 
   protected function save()
   {
-    debug('save!');
+    $this->info('saving posts...');
+    $this->SocialPosts = TableRegistry::get($this->params['model']);
+    $entities = $this->SocialPosts->newEntities($this->Social->toArray());
+    debug($entities);
   }
 }
