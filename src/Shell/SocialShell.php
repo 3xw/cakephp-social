@@ -4,32 +4,25 @@ namespace Trois\Social\Shell;
 use Cake\Console\Shell;
 
 /**
- * Social shell command.
- */
+* Social shell command.
+*/
 class SocialShell extends Shell
 {
 
-    /**
-     * Manage the available sub-commands along with their arguments and help
-     *
-     * @see http://book.cakephp.org/3.0/en/console-and-shells.html#configuring-options-and-generating-help
-     *
-     * @return \Cake\Console\ConsoleOptionParser
-     */
-    public function getOptionParser()
-    {
-        $parser = parent::getOptionParser();
+  public $tasks = ['Trois/Social.Facebook'];
 
-        return $parser;
-    }
+  public function getOptionParser()
+  {
+    $parser = parent::getOptionParser();
+    $parser->addSubcommand('facebook', [
+        'help' => 'Execute The Facebook Task.',
+        'parser' => $this->Facebook->getOptionParser(),
+    ]);
+    return $parser;
+  }
 
-    /**
-     * main() method.
-     *
-     * @return bool|int|null Success or error code.
-     */
-    public function main()
-    {
-        $this->out($this->OptionParser->help());
-    }
+  public function main()
+  {
+    $this->out($this->OptionParser->help());
+  }
 }
