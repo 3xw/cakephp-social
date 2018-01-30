@@ -26,15 +26,6 @@ class SocialShell extends Shell
     ->addSubcommand('twitter', [
         'help' => 'Execute The Twitter Task.',
         'parser' => $this->Twitter->getOptionParser(),
-    ])
-    ->addOption('save', [
-        'short' => 's',
-        'help' => __('Save the post')
-    ])
-    ->addOption('model', [
-        'short' => 'm',
-        'help' => __('Specify a model to save the posts with...'),
-        'default' => 'Trois/Social.SocialPosts',
     ]);
     return $parser;
   }

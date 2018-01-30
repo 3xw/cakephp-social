@@ -3,12 +3,12 @@ namespace Trois\Social\Network\Http;
 
 use Cake\Http\Client;
 
-class Instagram implements ISocial {
+class Instagram extends Social {
 
-  public function getLastPosts($type, $key, $limit = 10)
+  public function query($type, $key, $limit = 10)
   {
     //set up...
-    $posts = [];
+    $this->posts = [];
     $http = new Client();
 
     //GET POSTS
@@ -29,7 +29,9 @@ class Instagram implements ISocial {
     foreach($datas as $dataKey => $data){
       if($dataKey < $limit){
         $post = [];
-        $post['type'] = 'instagram';
+        $post['provider'] = 'instagram';
+        $post['type'] = $type;
+
         if($type == 'account'){
           $post['created'] = ($data->date)? date("Y-m-d H:i:s", $data->date) : null;
           $post['link'] = 'https://www.instagram.com/p/'.$data->id;
@@ -44,11 +46,11 @@ class Instagram implements ISocial {
           $post['author'] = null;
           $post['image'] = $data->thumbnail_src;
         }
-        $posts[$post['created']] = $post;
+        $this->posts[] = array_merge((array)$data, $post);
       }
     }
 
-    return $posts;
+    return $this;
   }
 
 }

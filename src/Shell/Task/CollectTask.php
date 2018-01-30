@@ -7,6 +7,23 @@ class CollectTask extends Shell
 {
   public $Social;
 
+  public function getOptionParser()
+  {
+    $parser = parent::getOptionParser();
+    $parser
+    ->addOption('save', [
+        'short' => 's',
+        'help' => __('Save the post'),
+        'boolean' => true
+    ])
+    ->addOption('model', [
+        'short' => 'm',
+        'help' => __('Specify a model to save the posts with...'),
+        'default' => 'Trois/Social.SocialPosts',
+    ]);
+    return $parser;
+  }
+
   public function main($type = null, $key = null, $limit = null)
   {
     if($type == null){
@@ -21,7 +38,15 @@ class CollectTask extends Shell
       $limit = $this->in('How much posts?', null, 10);
     }
 
-    $posts = $this->Social->getLastPosts($type, $key, $limit);
-    debug($posts);
+    $this->Social->query($type, $key, $limit);
+
+    debug($this->Social->toArray());
+
+    if($this->params['save']) $this->save();
+  }
+
+  protected function save()
+  {
+    debug('save!');
   }
 }

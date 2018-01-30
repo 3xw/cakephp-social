@@ -5,14 +5,14 @@ use Cake\I18n\I18n;
 use Cake\Core\Configure;
 use Facebook\Facebook as FB;
 
-class Facebook implements ISocial {
+class Facebook extends Social {
 
-  public function getLastPosts($type, $key, $limit = 10)
+  public function query($type, $key, $limit = 10)
   {
     //set up...
     $config = Configure::read('Social.facebook');
     $locale = I18n::locale();
-    $posts = [];
+    $this->posts = [];
 
     // FIX LOCALE POUR CES PT
     $locale = str_replace(['fr_CH','de_CH'],['fr_FR','de_DE'], $locale);
@@ -44,11 +44,11 @@ class Facebook implements ISocial {
         }else{
           $post['image'] = $data['picture'] ?? null;
         }
-        $posts[$post['created']] = $post;
+        $this->posts[$post['created']] = $post;
       }
     }
 
-    return $posts;
+    return $this;
   }
 
 }

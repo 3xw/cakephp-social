@@ -5,14 +5,14 @@ use Cake\I18n\I18n;
 use Cake\Core\Configure;
 use TwitterAPIExchange;
 
-class Twitter implements ISocial {
+class Twitter extends Social {
 
-  public function getLastPosts($type, $key, $limit = 10)
+  public function query($type, $key, $limit = 10)
   {
     //set up...
     $config = Configure::read('Social.twitter');
     $locale = I18n::locale();
-    $posts = [];
+    $this->posts = [];
 
     // FIX LOCALE POUR CES PT
     $locale = str_replace(['fr_CH','de_CH'],['fr_FR','de_DE'], $locale);
@@ -49,11 +49,11 @@ class Twitter implements ISocial {
         $post['message'] = $data->text ?? null;
         $post['author'] = $data->user->screen_name ?? null;
         $post['image'] = null;
-        $posts[$post['created']] = $post;
+        $this->posts[$post['created']] = $post;
       }
     }
 
-    return $posts;
+    return $this;
   }
 
 }
