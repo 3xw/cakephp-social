@@ -34,10 +34,22 @@ class SocialPostsTable extends Table
 
     $this->setTable('social_posts');
     $this->setDisplayField('id');
-    $this->setPrimaryKey('id');
+    $this->setPrimaryKey(['id','provider']);
 
     $this->addBehavior('Timestamp');
     $this->addBehavior('Trois/Social.MatchRequirements');
+
+    $this->addBehavior('Search.Search');
+    $this->searchManager()
+    ->add('q', 'Search.Like', [
+      'before' => true,
+      'after' => true,
+      'mode' => 'or',
+      'comparison' => 'LIKE',
+      'wildcardAny' => '*',
+      'wildcardOne' => '?',
+      'field' => ['provider','message']
+    ]);
 
   }
 

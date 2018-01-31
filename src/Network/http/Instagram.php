@@ -32,17 +32,15 @@ class Instagram extends Social {
         $post = [];
         $post['provider'] = 'instagram';
         $post['type'] = $type;
-
+        $post['link'] = 'https://www.instagram.com/p/'.$data->node->shortcode;
         if($type == 'account'){
           $post['date'] = ($data->date)? date("Y-m-d H:i:s", $data->date) : null;
-          $post['link'] = 'https://www.instagram.com/p/'.$data->id;
           $post['message'] = $data->caption ?? null;
           $post['author'] = $queryPosts->user->full_name;
           $post['image'] = $data->display_src;
         }elseif($type == 'search'){
           $data = $data->node;
           $post['date'] = ($data->taken_at_timestamp)? date("Y-m-d H:i:s", $data->taken_at_timestamp) : null;
-          $post['link'] = 'https://www.instagram.com/p/'.$data->id;
           $post['message'] = $data->edge_media_to_caption->edges[0]->node->text ?? null;
           $post['author'] = null;
           $post['image'] = $data->thumbnail_src;
