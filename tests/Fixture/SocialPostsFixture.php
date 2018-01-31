@@ -31,7 +31,7 @@ class SocialPostsFixture extends TestFixture
             'provider' => ['type' => 'index', 'columns' => ['provider'], 'length' => []],
         ],
         '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'primary' => ['type' => 'primary', 'columns' => ['id', 'provider'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -47,11 +47,11 @@ class SocialPostsFixture extends TestFixture
      */
     public $records = [
         [
-            'id' => '213967f5-e0f3-47a3-a3b6-3a5dd1422fea',
-            'provider' => 'Lorem ipsum dolor sit amet',
-            'date' => '2018-01-30 17:06:09',
-            'created' => '2018-01-30 17:06:09',
-            'modified' => '2018-01-30 17:06:09',
+            'id' => 'aaf4957a-1af1-4710-a33c-4473c71b65ee',
+            'provider' => 'b60ae84c-b2c6-4c9d-963f-2014ea1b6125',
+            'date' => '2018-01-31 09:54:09',
+            'created' => '2018-01-31 09:54:09',
+            'modified' => '2018-01-31 09:54:09',
             'display' => 1,
             'link' => 'Lorem ipsum dolor sit amet',
             'message' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',

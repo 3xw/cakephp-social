@@ -44,8 +44,8 @@ class CollectTask extends Shell
     $this->info('collect '.$limit.' post(s)...');
     $this->Social->query($type, $key, $limit);
 
-    $this->info(count($this->Social->toArray()).' post(s) has/have been collected!');
-    if($this->params['save']) $this->save();
+    $this->success(count($this->Social->toArray()).' post(s) has/have been collected!');
+    if($this->params['save'] && !empty($this->Social->toArray())) $this->save();
   }
 
   protected function save()
@@ -53,6 +53,28 @@ class CollectTask extends Shell
     $this->info('saving posts...');
     $this->SocialPosts = TableRegistry::get($this->params['model']);
     $entities = $this->SocialPosts->newEntities($this->Social->toArray());
-    debug($entities);
+    $results = $this->SocialPosts->saveMany($entities);
+
+    if(!empty($results))
+    {
+      $this->success(count($results).' on '.count($entities).' post(s) was/were successfully saved!');
+    }else
+    {
+      $this->err('No recrods saved! loook at following entities errors:');
+      $this->hr();
+
+      foreach($entities as $entity)
+      {
+        $this->err('Entity from '.$entity->provider.' '.$entity->link);
+        foreach($entity->errors() as $field => $errors)
+        {
+          foreach($errors as $errorType => $errorMesage)
+          {
+            $this->err('field "'.$field.'" has error type "'.$errorType.'" with message "'.$errorMesage.'"');
+          }
+        }
+        $this->hr();
+      }
+    }
   }
 }

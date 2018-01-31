@@ -9,6 +9,7 @@ class Instagram extends Social {
   {
     //set up...
     $this->posts = [];
+    $datas = [];
     $http = new Client();
 
     //GET POSTS
@@ -21,9 +22,9 @@ class Instagram extends Social {
     $queryPosts = json_decode($http->get($feedUrl)->body());
 
     if($type == 'account'){
-      $datas = $queryPosts->user->media->nodes;
+      $datas = (!empty($queryPosts->user->media->nodes))? $queryPosts->user->media->nodes: [];
     }elseif($type == 'search'){
-      $datas = $queryPosts->graphql->hashtag->edge_hashtag_to_media->edges;
+      $datas = (!empty($queryPosts->graphql->hashtag->edge_hashtag_to_media->edges))? $queryPosts->graphql->hashtag->edge_hashtag_to_media->edges: [];
     }
 
     foreach($datas as $dataKey => $data){

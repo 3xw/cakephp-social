@@ -6,9 +6,28 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+/**
+* SocialPosts Model
+*
+* @method \Trois\Social\Model\Entity\SocialPost get($primaryKey, $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost newEntity($data = null, array $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost[] newEntities(array $data, array $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost[] patchEntities($entities, array $data, array $options = [])
+* @method \Trois\Social\Model\Entity\SocialPost findOrCreate($search, callable $callback = null, $options = [])
+*
+* @mixin \Cake\ORM\Behavior\TimestampBehavior
+*/
 class SocialPostsTable extends Table
 {
 
+  /**
+  * Initialize method
+  *
+  * @param array $config The configuration for the Table.
+  * @return void
+  */
   public function initialize(array $config)
   {
     parent::initialize($config);
@@ -18,19 +37,26 @@ class SocialPostsTable extends Table
     $this->setPrimaryKey('id');
 
     $this->addBehavior('Timestamp');
-    $this->addBehavior('MatchRequirements');
+    $this->addBehavior('Trois/Social.MatchRequirements');
+
   }
 
+  /**
+  * Default validation rules.
+  *
+  * @param \Cake\Validation\Validator $validator Validator instance.
+  * @return \Cake\Validation\Validator
+  */
   public function validationDefault(Validator $validator)
   {
     $validator
-    ->uuid('id')
-    ->allowEmpty('id');
+    //->uuid('id')
+    ->maxLength('id',36)
+    ->notEmpty('id');
 
     $validator
     ->scalar('provider')
     ->maxLength('provider',45)
-    ->requirePresence('provider')
     ->notEmpty('provider');
 
     $validator
@@ -40,12 +66,11 @@ class SocialPostsTable extends Table
 
     $validator
     ->boolean('display')
-    ->requirePresence('display')
-    ->notEmpty('display');
+    ->allowEmpty('display');
 
     $validator
     ->scalar('link')
-    ->maxLength('link', 255)
+    ->maxLength('link',255)
     ->requirePresence('link')
     ->notEmpty('link');
 
@@ -55,12 +80,12 @@ class SocialPostsTable extends Table
 
     $validator
     ->scalar('author')
-    ->maxLength('author', 255)
+    ->maxLength('author',255)
     ->allowEmpty('author');
 
     $validator
     ->scalar('image')
-    ->maxLength('image', 255)
+    ->maxLength('image',255)
     ->allowEmpty('image');
 
     return $validator;
