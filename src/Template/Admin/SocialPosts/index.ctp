@@ -44,7 +44,7 @@
               <?php foreach ($socialPosts as $socialPost): ?>
                 <tr>
                   <td>
-                    <?= $socialPost->display?  $this->Html->tag('i','done',['class' => 'material-icons']): $this->Html->tag('i','cancel',['class' => 'material-icons']) ?>
+                    <?= $socialPost->display?  $this->Html->tag('i','done',['class' => 'material-icons text-success']): $this->Html->tag('i','cancel',['class' => 'material-icons text-danger']) ?>
                   </td>
                   <td>
                     <?= !empty($socialPost->image)? $this->Html->tag('img',null, ['src' => $socialPost->image, 'width' => '50px']): '' ?>
