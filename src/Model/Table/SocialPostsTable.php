@@ -18,6 +18,7 @@ class SocialPostsTable extends Table
     $this->setPrimaryKey('id');
 
     $this->addBehavior('Timestamp');
+    $this->addBehavior('MatchRequirements');
   }
 
   public function validationDefault(Validator $validator)
