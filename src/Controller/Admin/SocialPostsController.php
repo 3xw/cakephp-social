@@ -35,14 +35,23 @@ class SocialPostsController extends AppController
     $this->set('socialPosts', $this->paginate($query));
   }
 
-  public function view($id = null, $provider = null)
+  public function display($id = null, $provider = null, $display = 1)
   {
     $socialPost = $this->SocialPosts->get([$id, $provider], [
       'contain' => []
     ]);
-
-    $this->set('socialPost', $socialPost);
-    $this->set('_serialize', ['socialPost']);
+    if ($this->request->is(['patch', 'post', 'put'])) {
+      $socialPost = $this->SocialPosts->patchEntity($socialPost, ['display' => $display]);
+      if ($this->SocialPosts->save($socialPost)) {
+        $this->Flash->success(__('The social post has been saved.'));
+      }
+      $this->Flash->error(__('The social post could not be saved. Please, try again.'));
+    }
+    return $this->redirect([
+      'action' => 'index',
+      '?' => $this->request->query,
+      '#' => $provider.'-'.$id
+    ]);
   }
 
   public function add()

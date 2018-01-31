@@ -1,3 +1,6 @@
+<?
+$this->Html->css(['https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'],['block' => 'css']);
+?>
 <nav class="navbar navbar-expand-lg">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,26 +35,39 @@
           <table id="datatables" class="table table-no-bordered table-hover dataTable dtr-inline" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
             <thead class="thead-default">
               <tr>
-                <th></th>
-                <th></th>
-                <th><?= $this->Paginator->sort('message') ?></th>
+                <th><?= $this->Paginator->sort('display','IsVisible') ?></th>
                 <th><?= $this->Paginator->sort('provider') ?></th>
-                <th><?= $this->Paginator->sort('date') ?></th>
+                <th><?= $this->Paginator->sort('date','PublishDate') ?></th>
+                <th><?= $this->Paginator->sort('image','Pic') ?></th>
+                <th><?= $this->Paginator->sort('message') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($socialPosts as $socialPost): ?>
-                <tr>
+                <tr id="<?= $socialPost->provider.'-'.$socialPost->id ?>">
                   <td>
-                    <?= $socialPost->display?  $this->Html->tag('i','done',['class' => 'material-icons text-success']): $this->Html->tag('i','cancel',['class' => 'material-icons text-danger']) ?>
+                    <?
+                    $link = [
+                      'action' => 'display',
+                      $socialPost->id,
+                      $socialPost->provider,
+                      '?' => $this->request->query,
+                      '#' => $socialPost->provider.'-'.$socialPost->id
+                    ];
+                    ?>
+                    <? if($socialPost->display): ?>
+                      <?= $this->Html->link($this->Html->tag('i','done',['class' => 'material-icons text-success']),$link+[0],['escape' => false]) ?>
+                    <? else: ?>
+                      <?= $this->Html->link($this->Html->tag('i','cancel',['class' => 'material-icons text-danger']),$link+[1],['escape' => false]) ?>
+                    <? endif; ?>
                   </td>
+                  <td data-title="provider"><i class="fa fa-<?= $socialPost->provider ?>" aria-hidden="true"></i></td>
+                  <td data-title="date"><?= h($socialPost->date) ?></td>
                   <td>
                     <?= !empty($socialPost->image)? $this->Html->tag('img',null, ['src' => $socialPost->image, 'width' => '50px']): '' ?>
                   </td>
                   <td data-title="message"><?= h($socialPost->message) ?></td>
-                  <td data-title="provider"><?= h($socialPost->provider) ?></td>
-                  <td data-title="date"><?= h($socialPost->date) ?></td>
                   <td data-title="actions" class="actions" class="text-right">
                     <div class="btn-group">
                       <?= $this->Html->link('<i class="material-icons">visibility</i>', $socialPost->link,['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false, 'target' => '_blank']) ?>
