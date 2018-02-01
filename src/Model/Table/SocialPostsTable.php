@@ -37,7 +37,6 @@ class SocialPostsTable extends Table
     $this->setPrimaryKey(['id','provider']);
 
     $this->addBehavior('Timestamp');
-    $this->addBehavior('Trois/Social.MatchRequirements');
 
     $this->addBehavior('Search.Search');
     $this->searchManager()
@@ -73,7 +72,6 @@ class SocialPostsTable extends Table
 
     $validator
     ->dateTime('date')
-    ->requirePresence('date')
     ->notEmpty('date');
 
     $validator
@@ -83,7 +81,6 @@ class SocialPostsTable extends Table
     $validator
     ->scalar('link')
     ->maxLength('link',255)
-    ->requirePresence('link')
     ->notEmpty('link');
 
     $validator

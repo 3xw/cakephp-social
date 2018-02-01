@@ -40,13 +40,13 @@ class SocialPostsController extends AppController
     $socialPost = $this->SocialPosts->get([$id, $provider], [
       'contain' => []
     ]);
-    if ($this->request->is(['patch', 'post', 'put'])) {
-      $socialPost = $this->SocialPosts->patchEntity($socialPost, ['display' => $display]);
-      if ($this->SocialPosts->save($socialPost)) {
-        $this->Flash->success(__('The social post has been saved.'));
-      }
+    $socialPost = $this->SocialPosts->patchEntity($socialPost, ['display' => $display]);
+    if ($this->SocialPosts->save($socialPost)) {
+      $this->Flash->success(__('The social post has been saved.'));
+    }else{
       $this->Flash->error(__('The social post could not be saved. Please, try again.'));
     }
+
     return $this->redirect([
       'action' => 'index',
       '?' => $this->request->query,

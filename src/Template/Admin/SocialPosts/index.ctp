@@ -57,9 +57,9 @@ $this->Html->css(['https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-a
                     ];
                     ?>
                     <? if($socialPost->display): ?>
-                      <?= $this->Html->link($this->Html->tag('i','done',['class' => 'material-icons text-success']),$link+[0],['escape' => false]) ?>
+                      <?= $this->Html->link($this->Html->tag('i','done',['class' => 'material-icons text-success']),array_merge($link,[0]),['escape' => false]) ?>
                     <? else: ?>
-                      <?= $this->Html->link($this->Html->tag('i','cancel',['class' => 'material-icons text-danger']),$link+[1],['escape' => false]) ?>
+                      <?= $this->Html->link($this->Html->tag('i','cancel',['class' => 'material-icons text-danger']),array_merge($link,[1]),['escape' => false]) ?>
                     <? endif; ?>
                   </td>
                   <td data-title="provider"><i class="fa fa-<?= $socialPost->provider ?>" aria-hidden="true"></i></td>
