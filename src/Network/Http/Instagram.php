@@ -22,7 +22,7 @@ class Instagram extends Social {
     $queryPosts = json_decode($http->get($feedUrl)->body());
 
     if($type == 'account'){
-      $datas = (!empty($queryPosts->user->media->nodes))? $queryPosts->user->media->nodes: [];
+      $datas = (!empty($queryPosts->graphql->user->edge_owner_to_timeline_media->edges))? $queryPosts->graphql->user->edge_owner_to_timeline_media->edges: [];
     }elseif($type == 'search'){
       $datas = (!empty($queryPosts->graphql->hashtag->edge_hashtag_to_media->edges))? $queryPosts->graphql->hashtag->edge_hashtag_to_media->edges: [];
     }
